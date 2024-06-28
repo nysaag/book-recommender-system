@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('template.html',
+    return render_template('index.html',
                            book_name=popular_df['Book-Title'].values.tolist(),
                            author=popular_df['Book-Author'].values.tolist(),
                            image=popular_df['Image-URL-M'].values.tolist(),
@@ -34,9 +34,9 @@ def recommend():
     for i in similar_items:
         item = []
         temp_df = books[books['Book-Title'] == pt.index[i[0]]]
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Title'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Author'].values))
-        item.extend(list(temp_df.drop_duplicates('Book-Title')['Image-URL-M'].values))
+        item.extend(temp_df.drop_duplicates('Book-Title')['Book-Title'].to_list())
+        item.extend(temp_df.drop_duplicates('Book-Title')['Book-Author'].to_list())
+        item.extend(temp_df.drop_duplicates('Book-Title')['Image-URL-M'].to_list())
 
         data.append(item)
     print(data)
